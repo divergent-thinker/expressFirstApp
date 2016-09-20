@@ -78,9 +78,7 @@ for (var i=0; i< items.length; i++) {
 	return result
 }
 
-
-
-
+/*
 function groupBy (values, keyfn){
 
 	//Create a result object:
@@ -106,35 +104,41 @@ function groupBy (values, keyfn){
 
 	return results;
 }
+*/
 
+//Refactored version of above.
 function groupBy (values, keyfn){
 
 	//Create a result object:
 	var results = {};
 
-	//For every item:
-	for (var i=0; i<values.length; i++) {
-		//grab the value
-		var value = values[i];
-		//find the key of the value
+	values.forEach(function	(value) {
 		var key = keyfn(value);
 
-
-		//Check if the key is in teh results already
-		if (results[key]) {
-
-		} else {
+		if (!(key in results)) {
 			results[key] = [];
-		}
+		} 
 		//Add values to the appropriate array
-		results[key].push(value);		
-	}
+		results[key].push(value);
+	});
 
 	return results;
 }
+	
 
 
-
+/*
+ * It's best to use the in operator because otherwise, if 
+ * we do this:
+ *
+ *     if (results[key]) {...} 
+ *
+ * then if the value of the key we're looking at 
+ * is false or if it is something that is falsey e.g. 0, 
+ * "", [] etc, then we will get the false impression that the 
+ * property/key doesn't exist when it in fact does exist.  
+ *  
+ */
 
 
 	
