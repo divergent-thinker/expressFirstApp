@@ -208,7 +208,7 @@ function object2array (obj) {
 }
 
 /*
- *     array2object([[a,1], [b,2], [c,3]]) ->
+ *     array2object([[a,1], [b,2], [c,3], [b]]) ->
  *       {a:1, b:2, c:3}
  *		[['a',1]] -> {a:1}
  */
@@ -217,14 +217,23 @@ function array2object (arr) {
 	//CHECKS
 	if (arr.length < 1) {
 		return {};
-	} 
+	}
+	arr.forEach (function (pair) {
+		if (pair.length !=2) {
+			throw new Error('Incorrect data given to array2object');
+		}
+	})
 
 	//WORK
 	var obj = {};
-	var pair = arr[0];
-	var propertyName = pair[0];
-	var value = pair[1];
-	obj[propertyName] = value; //cabinet[name of drawer] = put something inside.
+	arr.forEach (function (pair) {
+		var propertyName = pair[0];
+		var value = pair[1];
+		obj[propertyName] = value;
+	});
+	return obj;
+}	
+	 //cabinet[name of drawer] = put something inside.
 	//only use dot notation when you know the propertyName of the thing that you want to change or add. 
 	
 	//CATCH - e.g. if error occured while working, sort it out here or pass it on 
@@ -234,8 +243,7 @@ function array2object (arr) {
 	//CLEANUP (none to do in this case)
 	
 	//EXIT
-	return obj;
-}
+
 
 
 
